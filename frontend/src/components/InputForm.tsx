@@ -52,7 +52,7 @@ export const InputForm: React.FC<InputFormProps> = ({
       className={`flex flex-col gap-2 p-3 `}
     >
       <div
-        className={`flex flex-row items-center justify-between text-foreground rounded-3xl rounded-bl-sm ${
+        className={`flex flex-row items-center justify-between text-foreground rounded-3xl ${
           hasHistory ? "rounded-br-sm" : ""
         } break-words min-h-7 bg-card border border-border px-4 pt-3 shadow-sm`}
       >
