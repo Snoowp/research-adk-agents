@@ -1,4 +1,5 @@
 import { InputForm } from "./InputForm";
+import cegekaLogo from "../assets/images/cegeka-logo.png";
 
 interface WelcomeScreenProps {
   handleSubmit: (
@@ -17,9 +18,16 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
 }) => (
   <div className="flex flex-col items-center justify-center text-center px-4 flex-1 w-full max-w-3xl mx-auto gap-6 animate-fadeInUp">
     <div className="space-y-4">
-      <h1 className="text-5xl md:text-6xl font-bold text-cegeka-primary mb-3 animate-fadeIn">
-        Research Agent
-      </h1>
+      <div className="flex items-center justify-center gap-4 mb-6 animate-fadeIn">
+        <img 
+          src={cegekaLogo} 
+          alt="Cegeka Logo" 
+          className="h-12 w-12 md:h-16 md:w-16 object-contain animate-slideInRight"
+        />
+        <h1 className="text-5xl md:text-6xl font-bold text-cegeka-primary animate-fadeIn animation-delay-200">
+          Research Agent
+        </h1>
+      </div>
       <p className="text-xl md:text-2xl text-muted-foreground animate-fadeIn animation-delay-200">
         How can I help you research today?
       </p>

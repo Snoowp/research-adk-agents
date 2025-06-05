@@ -3,6 +3,7 @@ import { useADKStream, type Message } from "@/hooks/useADKStream";
 import { ProcessedEvent } from "@/components/ActivityTimeline";
 import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { ChatMessagesView } from "@/components/ChatMessagesView";
+import cegekaLogo from "@/assets/images/cegeka-logo.png";
 
 export default function App() {
   const [processedEventsTimeline, setProcessedEventsTimeline] = useState<
@@ -131,6 +132,20 @@ export default function App() {
   return (
     <div className="flex h-screen bg-background text-foreground font-sans antialiased">
       <main className="flex-1 flex flex-col overflow-hidden max-w-4xl mx-auto w-full">
+        {/* Header for chat view */}
+        {messages.length > 0 && (
+          <div className="flex items-center justify-center gap-3 py-4 px-6 border-b border-border bg-card/50 backdrop-blur-sm">
+            <img 
+              src={cegekaLogo} 
+              alt="Cegeka Logo" 
+              className="h-8 w-8 object-contain"
+            />
+            <h1 className="text-xl font-semibold text-cegeka-primary">
+              Research Agent
+            </h1>
+          </div>
+        )}
+        
         <div
           className={`flex-1 overflow-y-auto ${
             messages.length === 0 ? "flex" : ""
