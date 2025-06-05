@@ -67,7 +67,7 @@ export function ActivityTimeline({
             onClick={() => setIsTimelineCollapsed(!isTimelineCollapsed)}
           >
             <span className="status-indicator status-running"></span>
-            Research Progress
+            Onderzoek Voortgang
             {isTimelineCollapsed ? (
               <ChevronDown className="h-4 w-4 mr-2 text-cegeka-primary" />
             ) : (
@@ -84,7 +84,7 @@ export function ActivityTimeline({
                 <div>
                   <p className="text-sm text-foreground font-medium flex items-center gap-2">
                     <span className="status-indicator status-running"></span>
-                    Initializing research...
+                    Onderzoek initialiseren...
                   </p>
                 </div>
               </div>
@@ -121,7 +121,7 @@ export function ActivityTimeline({
                     <div>
                       <p className="text-sm text-foreground font-medium flex items-center gap-2">
                         <span className="status-indicator status-running"></span>
-                        Processing...
+                        Verwerken...
                       </p>
                     </div>
                   </div>
@@ -130,9 +130,9 @@ export function ActivityTimeline({
             ) : !isLoading ? ( // Only show "No activity" if not loading and no events
               <div className="flex flex-col items-center justify-center h-full text-muted-foreground pt-10">
                 <Info className="h-6 w-6 mb-3 text-cegeka-primary" />
-                <p className="text-sm">No activity to display.</p>
+                <p className="text-sm">Geen activiteit om weer te geven.</p>
                 <p className="text-xs text-muted-foreground/70 mt-1">
-                  Timeline will update during processing.
+                  Tijdlijn wordt bijgewerkt tijdens verwerking.
                 </p>
               </div>
             ) : null}

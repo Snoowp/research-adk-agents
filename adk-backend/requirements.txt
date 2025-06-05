@@ -5,3 +5,4 @@ google-adk>=1.0.0
 google-cloud-aiplatform[adk,agent_engines]>=1.90.0
 python-multipart
 sse-starlette
+python-dotenv

@@ -94,13 +94,13 @@ export function useADKStream(props: UseADKStreamProps = {}) {
       });
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP fout! status: ${response.status}`);
       }
       
       // Create EventSource from response body
       const reader = response.body?.getReader();
       if (!reader) {
-        throw new Error('No response body available');
+        throw new Error('Geen responsinhoud beschikbaar');
       }
       
       const decoder = new TextDecoder();
@@ -131,15 +131,15 @@ export function useADKStream(props: UseADKStreamProps = {}) {
                     await handleEvent(eventData);
                   }
                 } catch (parseError) {
-                  console.warn('Failed to parse SSE data:', parseError);
-                  console.warn('Problematic line:', line);
+                  console.warn('SSE-gegevens parseren mislukt:', parseError);
+                  console.warn('Problematische regel:', line);
                 }
               }
             }
           }
         } catch (error) {
           if (error instanceof Error && error.name !== 'AbortError') {
-            console.error('Stream processing error:', error);
+            console.error('Stream verwerkingsfout:', error);
             handleError(error.message);
           }
         } finally {
@@ -150,7 +150,7 @@ export function useADKStream(props: UseADKStreamProps = {}) {
       processStream();
       
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      const errorMessage = error instanceof Error ? error.message : 'Onbekende fout opgetreden';
       handleError(errorMessage);
     }
   }, [cleanup, onMessage, onActivity, onError, onComplete]);
@@ -202,7 +202,7 @@ export function useADKStream(props: UseADKStreamProps = {}) {
         break;
         
       case 'error':
-        handleError(data.error || 'Unknown error occurred');
+        handleError(data.error || 'Onbekende fout opgetreden');
         break;
         
       case '__end__':

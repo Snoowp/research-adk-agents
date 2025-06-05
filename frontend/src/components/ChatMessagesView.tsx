@@ -149,9 +149,16 @@ const HumanMessageBubble: React.FC<HumanMessageBubbleProps> = ({
     <div
       className={`text-primary-foreground rounded-3xl break-words min-h-7 bg-cegeka-primary max-w-[100%] sm:max-w-[90%] px-4 pt-3 shadow-md`}
     >
-      <ReactMarkdown components={mdComponents}>
+      <ReactMarkdown 
+        components={mdComponents}
+        breaks={true}
+      >
         {typeof message.content === "string"
           ? message.content
+              .replace(/(\d+\.\s+[A-Z][^.]*)/g, '\n\n## $1\n\n') // Add headers for numbered sections
+              .replace(/\*\s+([^*\n]+)/g, '\n* $1') // Fix bullet points
+              .replace(/\[(\d+)\]/g, ' [$1]') // Space before citations
+              .trim()
           : JSON.stringify(message.content)}
       </ReactMarkdown>
     </div>
@@ -196,9 +203,16 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
           />
         </div>
       )}
-      <ReactMarkdown components={mdComponents}>
+      <ReactMarkdown 
+        components={mdComponents}
+        breaks={true}
+      >
         {typeof message.content === "string"
           ? message.content
+              .replace(/(\d+\.\s+[A-Z][^.]*)/g, '\n\n## $1\n\n') // Add headers for numbered sections
+              .replace(/\*\s+([^*\n]+)/g, '\n* $1') // Fix bullet points
+              .replace(/\[(\d+)\]/g, ' [$1]') // Space before citations
+              .trim()
           : JSON.stringify(message.content)}
       </ReactMarkdown>
       <Button
@@ -214,7 +228,7 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
           )
         }
       >
-        {copiedMessageId === message.id ? "Copied" : "Copy"}
+        {copiedMessageId === message.id ? "Gekopieerd" : "Kopiëren"}
         {copiedMessageId === message.id ? <CopyCheck /> : <Copy />}
       </Button>
     </div>
@@ -248,7 +262,7 @@ export function ChatMessagesView({
       setCopiedMessageId(messageId);
       setTimeout(() => setCopiedMessageId(null), 2000); // Reset after 2 seconds
     } catch (err) {
-      console.error("Failed to copy text: ", err);
+      console.error("Tekst kopiëren mislukt: ", err);
     }
   };
 
@@ -303,7 +317,7 @@ export function ChatMessagesView({
                   ) : (
                     <div className="flex items-center justify-start h-full">
                       <Loader2 className="h-5 w-5 animate-spin text-cegeka-primary mr-2" />
-                      <span className="text-muted-foreground">Processing...</span>
+                      <span className="text-muted-foreground">Verwerken...</span>
                     </div>
                   )}
                 </div>

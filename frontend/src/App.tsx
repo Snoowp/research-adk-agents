@@ -25,8 +25,8 @@ export default function App() {
       
       if (eventType === 'generate_query') {
         processedEvent = {
-          title: "Generating Search Queries",
-          data: data.query_list ? data.query_list.join(", ") : "Generating queries...",
+          title: "Zoekopdrachten Genereren",
+          data: data.query_list ? data.query_list.join(", ") : "Opdrachten genereren...",
         };
       } else if (eventType === 'web_research') {
         const sources = data.sources_gathered || [];
@@ -37,19 +37,21 @@ export default function App() {
         const exampleLabels = uniqueLabels.slice(0, 3).join(", ");
         const iterationMsg = data.iteration && data.iteration > 1 ? ` (Iteration ${data.iteration})` : '';
         processedEvent = {
-          title: `Web Research${iterationMsg}`,
-          data: `Gathered ${numSources} sources. Related to: ${
+          title: `Web Onderzoek${iterationMsg}`,
+          data: `${numSources} bronnen verzameld. Gerelateerd aan: ${
             exampleLabels || "N/A"
           }.`,
         };
       } else if (eventType === 'reflection') {
         const iterationMsg = data.iteration && data.iteration > 1 ? ` (Iteration ${data.iteration})` : '';
         processedEvent = {
-          title: `Reflection${iterationMsg}`,
+          title: `Reflectie${iterationMsg}`,
           data: data.is_sufficient
-            ? "Search successful, generating final answer."
-            : `Need more information, searching for ${
-                data.follow_up_queries ? data.follow_up_queries.join(", ") : "additional information"
+            ? "Zoeken succesvol, eindantwoord genereren."
+            : `Meer informatie nodig, zoeken naar ${
+                data.follow_up_queries 
+                  ? data.follow_up_queries.map((q: any) => typeof q === 'string' ? q : q.query).join(", ") 
+                  : "aanvullende informatie"
               }`,
         };
       } else if (eventType === 'finalize_answer') {
@@ -57,8 +59,8 @@ export default function App() {
         if (!seenFinalizeAnswer.current) {
           seenFinalizeAnswer.current = true;
           processedEvent = {
-            title: "Finalizing Answer",
-            data: "Composing and presenting the final answer.",
+            title: "Antwoord Afronden",
+            data: "Eindantwoord samenstellen en presenteren.",
           };
           hasFinalizeEventOccurredRef.current = true;
         }

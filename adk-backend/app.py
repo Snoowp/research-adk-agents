@@ -5,6 +5,10 @@ import json
 import asyncio
 from typing import Dict, Any, Optional
 from contextlib import asynccontextmanager
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Set up environment for ADK
 os.environ['GOOGLE_API_KEY'] = os.getenv('GOOGLE_API_KEY', '')

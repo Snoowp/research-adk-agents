@@ -29,7 +29,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
         </h1>
       </div>
       <p className="text-xl md:text-2xl text-muted-foreground animate-fadeIn animation-delay-200">
-        How can I help you research today?
+        Hoe kan ik je vandaag helpen met onderzoek?
       </p>
     </div>
     <div className="w-full mt-6 animate-fadeInUp animation-delay-400">
@@ -42,11 +42,11 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
     </div>
     <div className="text-center space-y-2 animate-fadeIn animation-delay-600">
       <p className="text-sm text-muted-foreground">
-        Powered by <span className="text-cegeka-primary font-semibold">Google Agent Development Kit (ADK)</span>
+        Mogelijk gemaakt door <span className="text-cegeka-primary font-semibold">Google Agent Development Kit (ADK)</span>
       </p>
       <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
         <span className="status-indicator status-running"></span>
-        Advanced research with iterative refinement
+        Geavanceerd onderzoek met iteratieve verfijning
       </div>
     </div>
   </div>
