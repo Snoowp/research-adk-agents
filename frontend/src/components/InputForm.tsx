@@ -103,60 +103,69 @@ export const InputForm: React.FC<InputFormProps> = ({
               <SelectTrigger className="w-[120px] bg-transparent border-none cursor-pointer">
                 <SelectValue placeholder="Effort" />
               </SelectTrigger>
-              <SelectContent className="bg-neutral-700 border-neutral-600 text-neutral-300 cursor-pointer">
+              <SelectContent className="bg-card border-border text-foreground cursor-pointer shadow-lg">
                 <SelectItem
                   value="low"
-                  className="hover:bg-neutral-600 focus:bg-neutral-600 cursor-pointer"
+                  className="hover:bg-accent focus:bg-accent cursor-pointer text-foreground"
                 >
-                  Low
+                  <div className="flex items-center">
+                    <span className="status-indicator status-completed mr-2"></span>
+                    Low
+                  </div>
                 </SelectItem>
                 <SelectItem
                   value="medium"
-                  className="hover:bg-neutral-600 focus:bg-neutral-600 cursor-pointer"
+                  className="hover:bg-accent focus:bg-accent cursor-pointer text-foreground"
                 >
-                  Medium
+                  <div className="flex items-center">
+                    <span className="status-indicator status-running mr-2"></span>
+                    Medium
+                  </div>
                 </SelectItem>
                 <SelectItem
                   value="high"
-                  className="hover:bg-neutral-600 focus:bg-neutral-600 cursor-pointer"
+                  className="hover:bg-accent focus:bg-accent cursor-pointer text-foreground"
                 >
-                  High
+                  <div className="flex items-center">
+                    <span className="status-indicator status-error mr-2"></span>
+                    High
+                  </div>
                 </SelectItem>
               </SelectContent>
             </Select>
           </div>
-          <div className="flex flex-row gap-2 bg-neutral-700 border-neutral-600 text-neutral-300 focus:ring-neutral-500 rounded-xl rounded-t-sm pl-2  max-w-[100%] sm:max-w-[90%]">
-            <div className="flex flex-row items-center text-sm ml-2">
-              <Cpu className="h-4 w-4 mr-2" />
+          <div className="flex flex-row gap-2 bg-card border border-border text-foreground focus:ring-primary rounded-xl pl-2 max-w-[100%] sm:max-w-[90%]">
+            <div className="flex flex-row items-center text-sm ml-2 text-muted-foreground">
+              <Cpu className="h-4 w-4 mr-2 text-cegeka-primary" />
               Model
             </div>
             <Select value={model} onValueChange={setModel}>
               <SelectTrigger className="w-[150px] bg-transparent border-none cursor-pointer">
                 <SelectValue placeholder="Model" />
               </SelectTrigger>
-              <SelectContent className="bg-neutral-700 border-neutral-600 text-neutral-300 cursor-pointer">
+              <SelectContent className="bg-card border-border text-foreground cursor-pointer shadow-lg">
                 <SelectItem
                   value="gemini-2.0-flash"
-                  className="hover:bg-neutral-600 focus:bg-neutral-600 cursor-pointer"
+                  className="hover:bg-accent focus:bg-accent cursor-pointer text-foreground"
                 >
                   <div className="flex items-center">
-                    <Zap className="h-4 w-4 mr-2 text-yellow-400" /> 2.0 Flash
+                    <Zap className="h-4 w-4 mr-2 text-cegeka-primary" /> 2.0 Flash
                   </div>
                 </SelectItem>
                 <SelectItem
                   value="gemini-2.5-flash-preview-04-17"
-                  className="hover:bg-neutral-600 focus:bg-neutral-600 cursor-pointer"
+                  className="hover:bg-accent focus:bg-accent cursor-pointer text-foreground"
                 >
                   <div className="flex items-center">
-                    <Zap className="h-4 w-4 mr-2 text-orange-400" /> 2.5 Flash
+                    <Zap className="h-4 w-4 mr-2 text-cegeka-secondary" /> 2.5 Flash
                   </div>
                 </SelectItem>
                 <SelectItem
                   value="gemini-2.5-pro-preview-05-06"
-                  className="hover:bg-neutral-600 focus:bg-neutral-600 cursor-pointer"
+                  className="hover:bg-accent focus:bg-accent cursor-pointer text-foreground"
                 >
                   <div className="flex items-center">
-                    <Cpu className="h-4 w-4 mr-2 text-purple-400" /> 2.5 Pro
+                    <Cpu className="h-4 w-4 mr-2 text-cegeka-accent" /> 2.5 Pro
                   </div>
                 </SelectItem>
               </SelectContent>
@@ -165,7 +174,7 @@ export const InputForm: React.FC<InputFormProps> = ({
         </div>
         {hasHistory && (
           <Button
-            className="bg-neutral-700 border-neutral-600 text-neutral-300 cursor-pointer rounded-xl rounded-t-sm pl-2 "
+            className="btn-cegeka-secondary rounded-xl flex items-center gap-2"
             variant="default"
             onClick={() => window.location.reload()}
           >
