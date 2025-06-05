@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Cegeka Brand Typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -39,83 +42,171 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  
+  /* Cegeka Brand Colors */
+  --cegeka-sky-blue: #0098C3;
+  --cegeka-light-blue: #4C9FCE;
+  --cegeka-pastel-blue: #C8E9EF;
+  --cegeka-pure-red: #D12F30;
+  --cegeka-coral-red: #F37160;
+  --cegeka-purple-violet: #69266F;
+  --cegeka-pastel-turquoise: #90D5DF;
+  --cegeka-turquoise: #6BC6C4;
+  --cegeka-dark-blue: #11687F;
+  --cegeka-navy: #0D435A;
+  --cegeka-gray-lightest: #F1F2F2;
+  --cegeka-gray-light: #E2E9EB;
+  --cegeka-gray-medium: #CAD1D3;
+  --cegeka-gray-dark: #4D555B;
+  --cegeka-gray-darkest: #232628;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.5rem;
+  
+  /* Cegeka Light Theme */
+  --background: #F1F2F2;
+  --foreground: #232628;
+  --card: #FFFFFF;
+  --card-foreground: #232628;
+  --popover: #FFFFFF;
+  --popover-foreground: #232628;
+  --primary: #0098C3;
+  --primary-foreground: #FFFFFF;
+  --secondary: #C8E9EF;
+  --secondary-foreground: #232628;
+  --muted: #E2E9EB;
+  --muted-foreground: #4D555B;
+  --accent: #90D5DF;
+  --accent-foreground: #232628;
+  --destructive: #D12F30;
+  --destructive-foreground: #FFFFFF;
+  --border: #CAD1D3;
+  --input: #FFFFFF;
+  --ring: #0098C3;
+  
+  /* Chart colors using Cegeka palette */
+  --chart-1: #0098C3;
+  --chart-2: #D12F30;
+  --chart-3: #69266F;
+  --chart-4: #6BC6C4;
+  --chart-5: #F37160;
+  
+  /* Sidebar colors */
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #232628;
+  --sidebar-primary: #0098C3;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #C8E9EF;
+  --sidebar-accent-foreground: #232628;
+  --sidebar-border: #CAD1D3;
+  --sidebar-ring: #0098C3;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Cegeka Dark Theme */
+  --background: #232628;
+  --foreground: #F1F2F2;
+  --card: #4D555B;
+  --card-foreground: #F1F2F2;
+  --popover: #4D555B;
+  --popover-foreground: #F1F2F2;
+  --primary: #0098C3;
+  --primary-foreground: #FFFFFF;
+  --secondary: #0D435A;
+  --secondary-foreground: #F1F2F2;
+  --muted: #4D555B;
+  --muted-foreground: #CAD1D3;
+  --accent: #90D5DF;
+  --accent-foreground: #232628;
+  --destructive: #F37160;
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(202, 209, 211, 0.2);
+  --input: rgba(241, 242, 242, 0.1);
+  --ring: #0098C3;
+  
+  /* Chart colors for dark mode */
+  --chart-1: #4C9FCE;
+  --chart-2: #F37160;
+  --chart-3: #90D5DF;
+  --chart-4: #6BC6C4;
+  --chart-5: #C8E9EF;
+  
+  /* Sidebar dark colors */
+  --sidebar: #0D435A;
+  --sidebar-foreground: #F1F2F2;
+  --sidebar-primary: #0098C3;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #11687F;
+  --sidebar-accent-foreground: #F1F2F2;
+  --sidebar-border: rgba(202, 209, 211, 0.2);
+  --sidebar-ring: #0098C3;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+  
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', 'Calibri', system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+  
+  /* Cegeka Typography Hierarchy */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', 'Calibri', system-ui, -apple-system, sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+  
+  h1 {
+    @apply text-4xl font-bold;
+    color: var(--cegeka-sky-blue);
+  }
+  
+  h2 {
+    @apply text-3xl font-semibold;
+    color: var(--cegeka-dark-blue);
+  }
+  
+  h3 {
+    @apply text-2xl font-medium;
+  }
+  
+  /* Cegeka Brand Accent Colors */
+  .text-cegeka-primary {
+    color: var(--cegeka-sky-blue);
+  }
+  
+  .text-cegeka-secondary {
+    color: var(--cegeka-pure-red);
+  }
+  
+  .text-cegeka-accent {
+    color: var(--cegeka-purple-violet);
+  }
+  
+  .bg-cegeka-primary {
+    background-color: var(--cegeka-sky-blue);
+  }
+  
+  .bg-cegeka-secondary {
+    background-color: var(--cegeka-pure-red);
+  }
+  
+  .bg-cegeka-accent {
+    background-color: var(--cegeka-purple-violet);
+  }
+  
+  .bg-cegeka-light {
+    background-color: var(--cegeka-pastel-blue);
+  }
+  
+  .border-cegeka-primary {
+    border-color: var(--cegeka-sky-blue);
   }
 }
 
@@ -125,30 +216,176 @@
 .animation-delay-600 { animation-delay: 0.6s; }
 .animation-delay-800 { animation-delay: 0.8s; }
 
-/* Keyframes */
+/* Enhanced Cegeka-style Keyframes */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
+
 @keyframes fadeInUpSmooth {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-cegeka {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 /* Animation Classes */
 .animate-fadeIn {
   animation: fadeIn 0.5s ease-out forwards;
 }
+
 .animate-fadeInUp {
   animation: fadeInUp 0.5s ease-out forwards;
 }
+
 .animate-fadeInUpSmooth {
   animation: fadeInUpSmooth 0.3s ease-out forwards;
 }
 
-/* Ensure your body or html has a dark background if not already set, e.g.: */
-/* body { background-color: #0c0c0d; } */ /* This is similar to neutral-950 */
+.animate-slideInRight {
+  animation: slideInRight 0.4s ease-out forwards;
+}
+
+.animate-pulse-cegeka {
+  animation: pulse-cegeka 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Cegeka-style Timeline Effects */
+.timeline-item {
+  position: relative;
+  padding-left: 2rem;
+  border-left: 2px solid var(--cegeka-sky-blue);
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 0.5rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--cegeka-sky-blue);
+  border: 2px solid var(--background);
+}
+
+.timeline-item.active::before {
+  background-color: var(--cegeka-pure-red);
+  box-shadow: 0 0 0 4px rgba(209, 47, 48, 0.2);
+}
+
+.timeline-item.completed::before {
+  background-color: var(--cegeka-turquoise);
+}
+
+/* Cegeka Button Styles */
+.btn-cegeka-primary {
+  background: linear-gradient(135deg, var(--cegeka-sky-blue) 0%, var(--cegeka-light-blue) 100%);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 152, 195, 0.2);
+}
+
+.btn-cegeka-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 152, 195, 0.3);
+}
+
+.btn-cegeka-secondary {
+  background: linear-gradient(135deg, var(--cegeka-pure-red) 0%, var(--cegeka-coral-red) 100%);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(209, 47, 48, 0.2);
+}
+
+.btn-cegeka-secondary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(209, 47, 48, 0.3);
+}
+
+/* Cegeka Card Styles */
+.card-cegeka {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+}
+
+.card-cegeka:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-color: var(--cegeka-sky-blue);
+}
+
+/* Research Agent Specific Styles */
+.research-progress {
+  background: linear-gradient(90deg, var(--cegeka-pastel-blue) 0%, var(--cegeka-pastel-turquoise) 100%);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border-left: 4px solid var(--cegeka-sky-blue);
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.status-running {
+  background-color: var(--cegeka-sky-blue);
+  animation: pulse-cegeka 1.5s infinite;
+}
+
+.status-completed {
+  background-color: var(--cegeka-turquoise);
+}
+
+.status-error {
+  background-color: var(--cegeka-pure-red);
+}
