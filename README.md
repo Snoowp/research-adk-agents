@@ -6,6 +6,160 @@ A comprehensive research agent built with Google's Agent Development Kit (ADK) t
 
 This project demonstrates the conversion of a LangGraph-based research agent to Google ADK, showcasing modern agent composition patterns and streaming capabilities.
 
+### 🔄 System Architecture & Data Flow
+
+```mermaid
+flowchart TD
+    %% Frontend Layer
+    subgraph Frontend ["🎨 React Frontend"]
+        UI[InputForm<br/>- User query<br/>- Effort level<br/>- Model selection]
+        Chat[ChatMessagesView<br/>- Message bubbles<br/>- Real-time updates]
+        Timeline[ActivityTimeline<br/>- Progress visualization<br/>- Event tracking]
+        Hook[useADKStream Hook<br/>- SSE consumption<br/>- State management]
+    end
+
+    %% API Layer
+    subgraph API ["🌐 FastAPI Backend"]
+        FastAPI[FastAPI App<br/>- REST endpoints<br/>- SSE streaming<br/>- CORS handling]
+        SessionMgr[SessionManager<br/>- Session lifecycle<br/>- Configuration]
+        Runner[ADKRunner<br/>- Event streaming<br/>- Progress tracking]
+    end
+
+    %% ADK Agent Layer
+    subgraph ADK ["🤖 Google ADK Agents"]
+        Orchestrator[Enhanced Orchestrator<br/>🎭 Root Agent<br/>- Workflow coordination<br/>- Sub-agent delegation]
+        
+        subgraph SubAgents ["Specialized Sub-Agents"]
+            QueryGen[Query Generator<br/>🔍 Search Planning<br/>- Diverse query creation<br/>- JSON structured output]
+            WebSearch[Web Searcher<br/>🌐 Research Execution<br/>- Google Search tool<br/>- Source gathering]
+            Reflection[Reflection Analyst<br/>🤔 Quality Analysis<br/>- Sufficiency evaluation<br/>- Gap identification]
+            FinalAnswer[Answer Synthesizer<br/>📝 Report Creation<br/>- Comprehensive answers<br/>- Citation integration]
+        end
+    end
+
+    %% External Services
+    subgraph External ["🌍 External Services"]
+        GoogleAPI[Google Search API<br/>- Web search results<br/>- Grounding metadata]
+        Gemini[Gemini Models<br/>- 2.0 Flash<br/>- 2.5 Flash/Pro<br/>- Reasoning capabilities]
+    end
+
+    %% Data Flow Connections
+    UI -->|HTTP POST| FastAPI
+    FastAPI -->|Session Creation| SessionMgr
+    SessionMgr -->|Initialize| Runner
+    Runner -->|Execute| Orchestrator
+    
+    Orchestrator -->|1. Generate Queries| QueryGen
+    QueryGen -->|Structured Queries| Orchestrator
+    
+    Orchestrator -->|2. Research Web| WebSearch
+    WebSearch -->|Search Tool| GoogleAPI
+    GoogleAPI -->|Results + Metadata| WebSearch
+    WebSearch -->|Research Data| Orchestrator
+    
+    Orchestrator -->|3. Analyze Quality| Reflection
+    Reflection -->|Sufficiency Report| Orchestrator
+    
+    Orchestrator -->|4. Synthesize Answer| FinalAnswer
+    FinalAnswer -->|Final Report| Orchestrator
+    
+    %% All agents use Gemini
+    QueryGen -.->|LLM Calls| Gemini
+    WebSearch -.->|LLM Calls| Gemini
+    Reflection -.->|LLM Calls| Gemini
+    FinalAnswer -.->|LLM Calls| Gemini
+    Orchestrator -.->|LLM Calls| Gemini
+    
+    %% SSE Streaming
+    Runner -->|SSE Events| FastAPI
+    FastAPI -->|Event Stream| Hook
+    Hook -->|State Updates| Chat
+    Hook -->|Progress Updates| Timeline
+    
+    %% Iterative Flow (Reflection Loop)
+    Reflection -->|Insufficient| Orchestrator
+    Orchestrator -->|Follow-up Research| WebSearch
+
+    %% Session State (Shared Data Store)
+    subgraph SessionState ["💾 ADK Session State"]
+        State[Shared Agent Memory<br/>- research_topic<br/>- search_queries<br/>- search_results<br/>- reflection_analysis<br/>- final_answer]
+    end
+    
+    QueryGen -->|Write| State
+    WebSearch -->|Write| State
+    Reflection -->|Read/Write| State
+    FinalAnswer -->|Read/Write| State
+    Orchestrator -->|Coordinate| State
+
+    %% Styling
+    classDef frontend fill:#e1f5fe
+    classDef api fill:#f3e5f5
+    classDef adk fill:#e8f5e8
+    classDef external fill:#fff3e0
+    classDef state fill:#fce4ec
+    
+    class UI,Chat,Timeline,Hook frontend
+    class FastAPI,SessionMgr,Runner api
+    class Orchestrator,QueryGen,WebSearch,Reflection,FinalAnswer adk
+    class GoogleAPI,Gemini external
+    class State state
+```
+
+### 🔄 Event Streaming Architecture
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant A as FastAPI
+    participant R as ADKRunner
+    participant O as Orchestrator
+    participant S as Sub-Agents
+
+    U->>F: Submit research query
+    F->>A: POST /api/adk-research-stream
+    A->>R: Initialize ADK session
+    R->>O: Execute research workflow
+    
+    Note over O,S: Phase 1: Query Generation
+    O->>S: Delegate to QueryGenerator
+    S-->>R: Event: generate_query
+    R-->>A: Stream event
+    A-->>F: SSE: generate_query
+    F-->>U: Update timeline
+    
+    Note over O,S: Phase 2: Web Research
+    O->>S: Delegate to WebSearcher
+    S->>GoogleAPI: Execute searches
+    S-->>R: Event: web_research
+    R-->>A: Stream event
+    A-->>F: SSE: web_research
+    F-->>U: Update timeline
+    
+    Note over O,S: Phase 3: Reflection Loop
+    O->>S: Delegate to ReflectionAnalyst
+    S-->>R: Event: reflection
+    R-->>A: Stream event
+    A-->>F: SSE: reflection
+    F-->>U: Update timeline
+    
+    alt Research Insufficient
+        O->>S: Additional research cycle
+        Note over S: Repeat web research
+    else Research Sufficient
+        Note over O,S: Phase 4: Final Answer
+        O->>S: Delegate to AnswerSynthesizer
+        S-->>R: Event: finalize_answer
+        R-->>A: Stream event + final message
+        A-->>F: SSE: finalize_answer + message
+        F-->>U: Display final answer
+    end
+    
+    R-->>A: Event: __end__
+    A-->>F: SSE: __end__
+    F-->>U: Research complete
+```
+
 ### 🔄 Original vs ADK Implementation
 
 | Component | Original (LangGraph) | ADK Implementation |

@@ -147,7 +147,7 @@ const HumanMessageBubble: React.FC<HumanMessageBubbleProps> = ({
 }) => {
   return (
     <div
-      className={`text-primary-foreground rounded-3xl break-words min-h-7 bg-cegeka-primary max-w-[100%] sm:max-w-[90%] px-4 pt-3 rounded-br-lg shadow-md`}
+      className={`text-primary-foreground rounded-3xl break-words min-h-7 bg-cegeka-primary max-w-[100%] sm:max-w-[90%] px-4 pt-3 shadow-md`}
     >
       <ReactMarkdown components={mdComponents}>
         {typeof message.content === "string"
@@ -292,7 +292,7 @@ export function ChatMessagesView({
               <div className="flex items-start gap-3 mt-3">
                 {" "}
                 {/* AI message row structure */}
-                <div className="relative group max-w-[85%] md:max-w-[80%] rounded-xl p-3 shadow-sm break-words bg-card border border-border text-foreground rounded-bl-none w-full min-h-[56px]">
+                <div className="relative group max-w-[85%] md:max-w-[80%] rounded-3xl p-3 shadow-sm break-words bg-card border border-border text-foreground w-full min-h-[56px]">
                   {liveActivityEvents.length > 0 ? (
                     <div className="text-xs">
                       <ActivityTimeline
