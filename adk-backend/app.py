@@ -7,7 +7,7 @@ from typing import Dict, Any, Optional
 from contextlib import asynccontextmanager
 
 # Set up environment for ADK
-os.environ['GOOGLE_API_KEY'] = os.getenv('GOOGLE_API_KEY', 'AIzaSyBA7lHVrDfdnWb-N9cUfIW6AU0NYA553qQ')
+os.environ['GOOGLE_API_KEY'] = os.getenv('GOOGLE_API_KEY', '')
 os.environ['GOOGLE_GENAI_USE_VERTEXAI'] = os.getenv('GOOGLE_GENAI_USE_VERTEXAI', 'FALSE')
 
 from fastapi import FastAPI, HTTPException, Request
