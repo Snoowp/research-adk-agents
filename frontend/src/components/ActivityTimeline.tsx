@@ -36,7 +36,7 @@ export function ActivityTimeline({
     useState<boolean>(false);
   const getEventIcon = (title: string, index: number) => {
     if (index === 0 && isLoading && processedEvents.length === 0) {
-      return <Loader2 className="h-4 w-4 text-neutral-400 animate-spin" />;
+      return <Loader2 className="h-4 w-4 text-cegeka-primary animate-spin" />;
     }
     if (title.toLowerCase().includes("generating")) {
       return <TextSearch className="h-4 w-4 text-cegeka-primary" />;
@@ -117,23 +117,21 @@ export function ActivityTimeline({
                   </div>
                 ))}
                 {isLoading && processedEvents.length > 0 && (
-                  <div className="relative pl-8 pb-4">
-                    <div className="absolute left-0.5 top-2 h-5 w-5 rounded-full bg-neutral-600 flex items-center justify-center ring-4 ring-neutral-700">
-                      <Loader2 className="h-3 w-3 text-neutral-400 animate-spin" />
-                    </div>
+                  <div className="timeline-item active animate-pulse-cegeka">
                     <div>
-                      <p className="text-sm text-neutral-300 font-medium">
-                        Searching...
+                      <p className="text-sm text-foreground font-medium flex items-center gap-2">
+                        <span className="status-indicator status-running"></span>
+                        Processing...
                       </p>
                     </div>
                   </div>
                 )}
               </div>
             ) : !isLoading ? ( // Only show "No activity" if not loading and no events
-              <div className="flex flex-col items-center justify-center h-full text-neutral-500 pt-10">
-                <Info className="h-6 w-6 mb-3" />
+              <div className="flex flex-col items-center justify-center h-full text-muted-foreground pt-10">
+                <Info className="h-6 w-6 mb-3 text-cegeka-primary" />
                 <p className="text-sm">No activity to display.</p>
-                <p className="text-xs text-neutral-600 mt-1">
+                <p className="text-xs text-muted-foreground/70 mt-1">
                   Timeline will update during processing.
                 </p>
               </div>
