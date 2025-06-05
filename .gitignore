@@ -157,6 +157,9 @@ pnpm-lock.yaml
 docs/_build/
 docs/generated/
 
+# Original implementation (archived)
+docs/original-implementation/original-code-DO-NOT-EDIT-BACKEND/
+
 # SSL certificates
 *.pem
 *.key
