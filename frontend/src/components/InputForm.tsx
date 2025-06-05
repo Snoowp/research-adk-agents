@@ -83,11 +83,10 @@ export const InputForm: React.FC<InputFormProps> = ({
                 isSubmitDisabled
                   ? "opacity-50 cursor-not-allowed"
                   : ""
-              } text-base flex items-center gap-2 rounded-full px-4 py-2`}
+              } text-base rounded-full px-4 py-2`}
               disabled={isSubmitDisabled}
             >
               Research
-              <Send className="h-4 w-4" />
             </Button>
           )}
         </div>
