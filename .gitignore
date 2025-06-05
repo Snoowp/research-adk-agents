@@ -1,0 +1,168 @@
+# Environment variables and secrets
+.env
+.env.local
+.env.production
+.env.development
+*.env
+# Allow example file
+!.env.example
+
+# API Keys and credentials
+*api_key*
+*apikey*
+*API_KEY*
+*APIKEY*
+*secret*
+*SECRET*
+*credential*
+*CREDENTIAL*
+config/secrets.json
+config/credentials.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.cache
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+.ENV/
+virtualenv/
+.virtualenv/
+
+# Node.js / Frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dist/
+dist-ssr/
+*.local
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+log/
+*.log.*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Build outputs
+build/
+out/
+target/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Zone Identifier files (Windows)
+*:Zone.Identifier
+
+# Session and cache files
+*.session
+*.cache
+session_data/
+cache/
+.cache/
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# ADK specific
+adk_sessions/
+.adk_cache/
+
+# Research agent specific
+research_results/
+search_cache/
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Lock files (keep package-lock.json for npm)
+yarn.lock
+pnpm-lock.yaml
+
+# Production builds
+/frontend/dist
+/frontend/build
+/adk-backend/dist
+/adk-backend/build
+
+# Generated documentation
+docs/_build/
+docs/generated/
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+*.cer
+
+# Docker
+.dockerignore
+docker-compose.override.yml

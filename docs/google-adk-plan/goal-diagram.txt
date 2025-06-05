@@ -1,0 +1,142 @@
+graph TD
+    %% Frontend
+    subgraph FE [Frontend React GUI]
+        direction LR
+        FE_InputForm["InputForm_tsx <br> User Query Effort Model"]
+        FE_AppTsx["App_tsx <br> State Mgmt Custom SSE Handling"]
+        FE_ChatView["ChatMessagesView_tsx <br> Displays Messages"]
+        FE_ActivityTimeline["ActivityTimeline_tsx <br> Displays Agent Steps"]
+    end
+
+    %% FastAPI Backend
+    subgraph BE [FastAPI Backend ADK Version]
+        direction LR
+        BE_Endpoint["API_adk_research_stream <br> SSE Endpoint"]
+        BE_ADKRunner["ADK_Runner_SessionService <br> Manages Agent Execution State"]
+    end
+
+    %% ADK Agent Core
+    subgraph ADKCore [Google ADK Agent Core]
+        direction TB
+        ADKCore_Root["ROOT_AGENT_SequentialAgent <br> Orchestrates Overall Flow"]
+        
+        ADKCore_QueryGen["QueryGeneratorAgent_LlmAgent <br> Maps to graph_py_generate_query <br> Uses prompts_py_query_writer_instructions"]
+        ADKCore_PrepareSearch["PrepareInitialSearchAgent_BaseAgent <br> Distributes Queries for Parallel Search"]
+        
+        ADKCore_Loop["MainResearchLoop_LoopAgent <br> Iterative Research Reflection"]
+            ADKCore_ParallelSearch["ParallelWebSearch_ParallelAgent <br> Contains WebSearchInstanceAgents <br> Maps to graph_py_web_research_parallel"]
+            ADKCore_WebSearchInstance["WebSearchInstanceAgent_LlmAgent <br> Single Search Task <br> Uses google_search_tool prompts_py_web_searcher_instructions <br> Callback for utils_py citation_logic"]
+            ADKCore_Aggregate["AggregateSearchResultsAgent_BaseAgent <br> Collects Parallel Results"]
+            ADKCore_Reflection["ReflectionAgent_LlmAgent <br> Maps to graph_py_reflection <br> Uses prompts_py_reflection_instructions"]
+            ADKCore_LoopControl["ResearchLoopControllerAgent_BaseAgent <br> Maps to graph_py_evaluate_research"]
+        
+        ADKCore_FinalAnswer["FinalAnswerAgent_LlmAgent <br> Maps to graph_py_finalize_answer <br> Uses prompts_py_answer_instructions <br> Callback for utils_py citation_logic"]
+
+        ADKCore_Config["AGENT_CONFIG <br> Model Names Loop Counts <br> Maps to configuration_py"]
+        ADKCore_Schemas["ADK_Schemas_Pydantic <br> AdkSearchQueryList AdkReflection <br> Maps to tools_and_schemas_py"]
+        ADKCore_Utils["ADK_Adapted_Utils <br> Citations URL_processing <br> Maps to utils_py"]
+    end
+    
+    %% External Services
+    subgraph ExtSvc [External Services]
+        ExtSvc_GeminiAPI["Google Gemini API"]
+        ExtSvc_GoogleSearch["Google Search via ADK Tool"]
+    end
+
+    %% Connections
+    FE_InputForm -- "User Input Query Config" --> FE_AppTsx
+    FE_AppTsx -- "POST Request to FastAPI" --> BE_Endpoint
+
+    BE_Endpoint -- "Initiates Streams ADK Events" --> FE_AppTsx
+    FE_AppTsx -- "Updates UI Components" --> FE_ChatView
+    FE_AppTsx -- "Updates UI Components" --> FE_ActivityTimeline
+
+    BE_Endpoint -- "Invokes" --> BE_ADKRunner
+    BE_ADKRunner -- "Runs Manages State for" --> ADKCore_Root
+
+    ADKCore_Root --> ADKCore_QueryGen
+    ADKCore_QueryGen --> ADKCore_PrepareSearch
+    ADKCore_PrepareSearch --> ADKCore_Loop
+        ADKCore_Loop --> ADKCore_ParallelSearch
+        ADKCore_ParallelSearch --> ADKCore_WebSearchInstance
+        ADKCore_WebSearchInstance --> ADKCore_Aggregate
+        ADKCore_Aggregate --> ADKCore_Reflection
+        ADKCore_Reflection --> ADKCore_LoopControl
+        ADKCore_LoopControl -- "Continues Loop" --> ADKCore_ParallelSearch
+        ADKCore_LoopControl -- "Ends Loop" --> ADKCore_FinalAnswer
+    ADKCore_Loop --> ADKCore_FinalAnswer
+    
+    %% ADK Agent Interactions with External Services & Utils
+    ADKCore_QueryGen ----> ExtSvc_GeminiAPI
+    ADKCore_WebSearchInstance -- "Uses Tool" --> ExtSvc_GoogleSearch
+    ADKCore_WebSearchInstance -- "Callback Uses" --> ADKCore_Utils
+    ADKCore_Reflection ----> ExtSvc_GeminiAPI
+    ADKCore_FinalAnswer ----> ExtSvc_GeminiAPI
+    ADKCore_FinalAnswer -- "Callback Uses" --> ADKCore_Utils
+
+    %% ADK Agent internal dependencies
+    ADKCore_Root -- "Uses Config from" --> ADKCore_Config
+    ADKCore_QueryGen -- "Uses Schema from" --> ADKCore_Schemas
+    ADKCore_Reflection -- "Uses Schema from" --> ADKCore_Schemas
+
+    style FE fill:#D5E8D4,stroke:#82B366,stroke-width:2px
+    style BE fill:#DAE8FC,stroke:#6C8EBF,stroke-width:2px
+    style ADKCore fill:#FFE6CC,stroke:#D79B00,stroke-width:2px
+    style ExtSvc fill:#E1D5E7,stroke:#9673A6,stroke-width:2px
+Use code with caution.
+Mermaid
+Key Changes Made:
+Subgraph Labels: Changed subgraph labels to be simple identifiers without spaces or special characters (e.g., subgraph FE [Frontend React GUI] instead of subgraph Frontend [React GUI - App.tsx, ChatMessagesView.tsx, etc.]). The descriptive part is now in the node labels within the subgraph.
+Node Labels: Replaced all parentheses () and problematic characters like colons : and forward slashes / in node labels with underscores _ or removed them. HTML-like <br> tags are generally okay for line breaks within labels.
+Direction Keyword: Ensured direction LR or direction TB for subgraphs is correctly placed and doesn't interfere with the label.
+This revised version should parse correctly in most Mermaid renderers while still conveying the intended structure and relationships. The core flow and component mappings remain the same.
+
+
+Explanation of the Diagram:
+Frontend (React GUI - Green):
+InputForm.tsx: Collects the user's research query, desired effort level, and model preference.
+App.tsx:
+Manages the overall application state (messages, loading status, activity timeline).
+Handles the submission: makes a POST request to the FastAPI backend's /api/adk-research-stream endpoint.
+Listens to the Server-Sent Events (SSE) stream from FastAPI.
+Parses incoming events and updates the processedEventsTimeline (for ActivityTimeline.tsx) and messages (for ChatMessagesView.tsx).
+ChatMessagesView.tsx: Renders the conversation history (human and AI messages).
+ActivityTimeline.tsx: Displays the step-by-step progress of the agent based on the processedEventsTimeline.
+FastAPI Backend (Blue):
+main.py (ADK version): Hosts the FastAPI application.
+/api/adk-research-stream (SSE Endpoint):
+Receives the research request from the GUI.
+Initializes or retrieves an ADK session.
+Sets up the initial state for the ADK agent based on GUI input.
+Invokes the ADK Runner.
+Iterates through events from the ADK Runner.
+Transforms ADK agent events/state updates into the JSON format expected by the GUI's onUpdateEvent-like logic.
+Streams these JSON events back to the GUI using SSE.
+ADK Runner & SessionService: Core ADK components managed by FastAPI to execute the ROOT_AGENT and maintain its conversational state.
+Google ADK Agent Core (Orange):
+adk_research_agent.py: Contains the definitions of all ADK agents.
+ROOT_AGENT (SequentialAgent): The main orchestrator.
+QueryGeneratorAgent (LlmAgent): Generates initial search queries. Conceptually maps to graph.py:generate_query. Uses prompts from prompts.py.
+PrepareInitialSearchAgent (BaseAgent): A custom ADK agent to prepare state for parallel web searches.
+MainResearchLoop (LoopAgent): Manages the iterative research cycle.
+ParallelWebSearch (ParallelAgent): Executes multiple search tasks concurrently.
+WebSearchInstanceAgent (LlmAgent): A single web search task. Uses the google_search tool (ADK's version). Its callbacks would incorporate logic from your original utils.py for citation processing. Maps to a single branch of graph.py:web_research.
+AggregateSearchResultsAgent (BaseAgent): Collects and combines results from parallel searches.
+ReflectionAgent (LlmAgent): Analyzes results and suggests follow-ups. Maps to graph.py:reflection. Uses prompts from prompts.py.
+ResearchLoopControllerAgent (BaseAgent): Decides if the loop should continue or end. Maps to graph.py:evaluate_research.
+FinalAnswerAgent (LlmAgent): Synthesizes the final answer. Maps to graph.py:finalize_answer. Its callbacks would use utils.py logic for citation URL replacement. Uses prompts from prompts.py.
+AGENT_CONFIG: Holds static configuration like model names, default loop counts. Maps to configuration.py.
+ADK Schemas: Pydantic models for structured LLM output (e.g., AdkSearchQueryList). Maps to tools_and_schemas.py.
+ADK Adapted Utils: Utility functions for citation, URL processing, adapted for ADK's event and data structures. Maps to utils.py.
+External Services (Purple):
+Google Gemini API: Used by the LlmAgent instances for their core reasoning.
+Google Search (via ADK Tool): Used by WebSearchInstanceAgent for information retrieval.
+Flow Highlights:
+The GUI sends a request to FastAPI.
+FastAPI invokes the ADK Runner with the ROOT_AGENT.
+The ROOT_AGENT executes its sequence of sub-agents (QueryGen, Loop, FinalAnswer).
+The LoopAgent internally runs its sequence (ParallelSearch, Aggregate, Reflection, LoopControl).
+ADK Agents interact with Gemini and Google Search.
+As ADK agents produce events or update state, the FastAPI endpoint translates these into SSE messages formatted for the GUI.
+The GUI (App.tsx) receives these SSE messages and updates the ChatMessagesView and ActivityTimeline.
+This architecture allows you to leverage the ADK's agent framework while maintaining a similar user experience by adapting the backend-frontend communication protocol. The most significant work is in creating the ADK agent components and ensuring the FastAPI layer correctly translates ADK's internal workings into the stream format your GUI expects.
