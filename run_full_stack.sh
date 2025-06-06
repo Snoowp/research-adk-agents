@@ -43,17 +43,15 @@ echo -e "${GREEN}✅ Prerequisites check passed${NC}"
 echo
 
 # Check environment variables
-echo -e "${BLUE}Checking environment variables...${NC}"
+echo -e "${BLUE}Checking environment configuration...${NC}"
 
-if [ -z "$GOOGLE_CLOUD_PROJECT" ]; then
-    echo -e "${YELLOW}⚠️  GOOGLE_CLOUD_PROJECT not set${NC}"
-    echo "   Set it with: export GOOGLE_CLOUD_PROJECT=your-project-id"
+if [ ! -f ".env" ]; then
+    echo -e "${RED}❌ .env file not found${NC}"
+    echo "   Please create .env file based on .env.example"
+    exit 1
 fi
 
-if [ -z "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
-    echo -e "${YELLOW}⚠️  GOOGLE_APPLICATION_CREDENTIALS not set${NC}"
-    echo "   Set it with: export GOOGLE_APPLICATION_CREDENTIALS=path/to/service-account.json"
-fi
+echo -e "${GREEN}✅ Environment configuration found${NC}"
 
 # Check if ports are available
 if port_in_use 8000; then
@@ -68,12 +66,14 @@ fi
 # Install backend dependencies
 echo -e "${BLUE}Installing backend dependencies...${NC}"
 cd adk-backend
-if [ ! -d "venv" ]; then
+if [ ! -d "../.venv" ]; then
     echo "Creating Python virtual environment..."
-    python3 -m venv venv
+    cd ..
+    python3 -m venv .venv
+    cd adk-backend
 fi
 
-source venv/bin/activate
+source ../.venv/bin/activate
 pip install -r requirements.txt
 echo -e "${GREEN}✅ Backend dependencies installed${NC}"
 echo
@@ -91,7 +91,7 @@ mkdir -p ../logs
 # Start backend in background
 echo -e "${BLUE}Starting ADK backend server...${NC}"
 cd ../adk-backend
-source venv/bin/activate
+source ../.venv/bin/activate
 
 # Start backend server
 nohup python app.py > ../logs/backend.log 2>&1 &

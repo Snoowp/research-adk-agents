@@ -8,12 +8,8 @@ from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
-# Import orchestrators directly to avoid relative import issues
-# from ..agents.orchestrator import create_research_orchestrator
-from agents.sequential_orchestrator import create_sequential_research_orchestrator
+# Import enhanced orchestrator only
 from agents.enhanced_orchestrator import create_enhanced_research_orchestrator
-from agents.simplified_research_agent import create_research_agent
-# from ..models.schemas import ResearchState
 
 
 class ADKSessionManager:

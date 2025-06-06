@@ -22,7 +22,6 @@ from pydantic import BaseModel
 import uvicorn
 
 from services.adk_runner import ADKRunner, ADKSessionManager
-# from models.schemas import ResearchState  # Remove this import for now
 
 
 # Request/Response models
@@ -120,7 +119,6 @@ async def stream_research_results(session_id: str):
             yield f"data: {json.dumps({'event': 'error', 'data': {'error': 'Session not found'}})}\n\n"
             return
         
-        # state = ResearchState.parse_obj(session['state'])  # Simplify for now
         user_question = session.get('user_question', 'Unknown question')
         
         try:
