@@ -97,7 +97,17 @@ Instructions:
 - The summary should be a comprehensive report based on all your search findings combined.
 - Only include the information found in the search results, don't make up any information.
 
-Read the list of search queries from session state, conduct a comprehensive search for each, and synthesize a unified summary."""
+MARKDOWN FORMATTING REQUIREMENTS:
+- Use markdown headers intelligently: ## for major research areas, ### for specific findings or subtopics
+- Apply **bold** strategically for critical data points, key findings, dates, and breakthrough information
+- Use *italics* selectively for technical terms, study names, or concepts being introduced
+- Structure with appropriate lists: - for related findings, 1. for sequential information or processes
+- Use > blockquotes for direct quotes from sources or particularly significant research conclusions
+- Apply proper spacing and paragraph breaks to make dense research information scannable and readable
+
+Format your summary using markdown elements that enhance comprehension and highlight the most important information.
+
+Read the list of search queries from session state, conduct a comprehensive search for each, and synthesize a unified, well-formatted summary."""
 
         from google.adk.tools import google_search
         
@@ -168,7 +178,18 @@ Instructions:
 - Include all citations from the summaries in the answer correctly.
 - Provide a comprehensive, well-structured response that addresses the user's question.
 
-Read the research topic and summaries from session state and synthesize a complete answer."""
+MARKDOWN STRUCTURE REQUIREMENTS:
+- START with a proper markdown header: begin your response with # for the main title/topic
+- Apply markdown hierarchy intelligently: use # for main topics, ## for major sections, ### for subsections
+- Use **bold** strategically for key terms, critical findings, and important concepts that need emphasis
+- Use *italics* selectively for emphasis, technical terms, or when introducing new concepts
+- Choose appropriate list structures: use - for bullet points, 1. for numbered sequences, when organizing related information
+- Use > blockquotes for highlighting particularly significant findings, expert quotes, or key insights
+- Apply proper paragraph breaks and spacing to enhance readability and logical flow
+
+CRITICAL: Your response must begin with a markdown header (# Title) to ensure proper document structure parsing.
+
+Read the research topic and summaries from session state and synthesize a complete, well-formatted answer."""
 
         self._answer_synthesizer = LlmAgent(
             name="answer_synthesizer",

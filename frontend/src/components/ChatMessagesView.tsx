@@ -4,8 +4,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2, Copy, CopyCheck } from "lucide-react";
 import { InputForm } from "@/components/InputForm";
 import { Button } from "@/components/ui/button";
-import { useState, ReactNode } from "react";
+import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -13,154 +14,28 @@ import {
   ProcessedEvent,
 } from "@/components/ActivityTimeline"; // Assuming ActivityTimeline is in the same dir or adjust path
 
-// Markdown component props type from former ReportView
-type MdComponentProps = {
-  className?: string;
-  children?: ReactNode;
-  [key: string]: any;
-};
-
-// Markdown components (from former ReportView.tsx)
-const mdComponents = {
-  h1: ({ className, children, ...props }: MdComponentProps) => (
-    <h1 className={cn("text-2xl font-bold mt-4 mb-2", className)} {...props}>
-      {children}
-    </h1>
-  ),
-  h2: ({ className, children, ...props }: MdComponentProps) => (
-    <h2 className={cn("text-xl font-bold mt-3 mb-2", className)} {...props}>
-      {children}
-    </h2>
-  ),
-  h3: ({ className, children, ...props }: MdComponentProps) => (
-    <h3 className={cn("text-lg font-bold mt-3 mb-1", className)} {...props}>
-      {children}
-    </h3>
-  ),
-  p: ({ className, children, ...props }: MdComponentProps) => (
-    <p className={cn("mb-3 leading-7", className)} {...props}>
-      {children}
-    </p>
-  ),
-  a: ({ className, children, href, ...props }: MdComponentProps) => (
-    <Badge className="text-xs mx-0.5">
-      <a
-        className={cn("text-blue-400 hover:text-blue-300 text-xs", className)}
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        {...props}
-      >
-        {children}
-      </a>
-    </Badge>
-  ),
-  ul: ({ className, children, ...props }: MdComponentProps) => (
-    <ul className={cn("list-disc pl-6 mb-3", className)} {...props}>
-      {children}
-    </ul>
-  ),
-  ol: ({ className, children, ...props }: MdComponentProps) => (
-    <ol className={cn("list-decimal pl-6 mb-3", className)} {...props}>
-      {children}
-    </ol>
-  ),
-  li: ({ className, children, ...props }: MdComponentProps) => (
-    <li className={cn("mb-1", className)} {...props}>
-      {children}
-    </li>
-  ),
-  blockquote: ({ className, children, ...props }: MdComponentProps) => (
-    <blockquote
-      className={cn(
-        "border-l-4 border-cegeka-primary pl-4 italic my-3 text-sm bg-muted/50 py-2 rounded-r",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </blockquote>
-  ),
-  code: ({ className, children, ...props }: MdComponentProps) => (
-    <code
-      className={cn(
-        "bg-muted rounded px-1 py-0.5 font-mono text-xs text-foreground",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </code>
-  ),
-  pre: ({ className, children, ...props }: MdComponentProps) => (
-    <pre
-      className={cn(
-        "bg-muted p-3 rounded-lg overflow-x-auto font-mono text-xs my-3 border border-border",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </pre>
-  ),
-  hr: ({ className, ...props }: MdComponentProps) => (
-    <hr className={cn("border-border my-4", className)} {...props} />
-  ),
-  table: ({ className, children, ...props }: MdComponentProps) => (
-    <div className="my-3 overflow-x-auto">
-      <table className={cn("border-collapse w-full", className)} {...props}>
-        {children}
-      </table>
-    </div>
-  ),
-  th: ({ className, children, ...props }: MdComponentProps) => (
-    <th
-      className={cn(
-        "border border-border px-3 py-2 text-left font-bold bg-muted text-foreground",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </th>
-  ),
-  td: ({ className, children, ...props }: MdComponentProps) => (
-    <td
-      className={cn("border border-border px-3 py-2 text-foreground", className)}
-      {...props}
-    >
-      {children}
-    </td>
-  ),
-};
-
 // Props for HumanMessageBubble
 interface HumanMessageBubbleProps {
   message: Message;
-  mdComponents: typeof mdComponents;
 }
 
 // HumanMessageBubble Component
 const HumanMessageBubble: React.FC<HumanMessageBubbleProps> = ({
   message,
-  mdComponents,
 }) => {
   return (
     <div
       className={`text-primary-foreground rounded-3xl break-words min-h-7 bg-cegeka-primary max-w-[100%] sm:max-w-[90%] px-4 pt-3 shadow-md`}
     >
-      <ReactMarkdown 
-        components={mdComponents}
-        breaks={true}
-      >
-        {typeof message.content === "string"
-          ? message.content
-              .replace(/(\d+\.\s+[A-Z][^.]*)/g, '\n\n## $1\n\n') // Add headers for numbered sections
-              .replace(/\*\s+([^*\n]+)/g, '\n* $1') // Fix bullet points
-              .replace(/\[(\d+)\]/g, ' [$1]') // Space before citations
-              .trim()
-          : JSON.stringify(message.content)}
-      </ReactMarkdown>
+      <div className="markdown">
+        <ReactMarkdown 
+          remarkPlugins={[remarkGfm]}
+        >
+          {typeof message.content === "string"
+            ? message.content.trim()
+            : JSON.stringify(message.content)}
+        </ReactMarkdown>
+      </div>
     </div>
   );
 };
@@ -172,7 +47,6 @@ interface AiMessageBubbleProps {
   liveActivity: ProcessedEvent[] | undefined;
   isLastMessage: boolean;
   isOverallLoading: boolean;
-  mdComponents: typeof mdComponents;
   handleCopy: (text: string, messageId: string) => void;
   copiedMessageId: string | null;
 }
@@ -184,7 +58,6 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
   liveActivity,
   isLastMessage,
   isOverallLoading,
-  mdComponents,
   handleCopy,
   copiedMessageId,
 }) => {
@@ -193,8 +66,22 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
     isLastMessage && isOverallLoading ? liveActivity : historicalActivity;
   const isLiveActivityForThisBubble = isLastMessage && isOverallLoading;
 
+  const content = typeof message.content === "string"
+    ? message.content.trim()
+    : JSON.stringify(message.content);
+  
+  // Clean and normalize markdown content
+  const processedContent = content
+    .replace(/^\s+|\s+$/g, '')  // Trim whitespace
+    .replace(/\r\n/g, '\n')     // Normalize line endings
+    .replace(/\n{3,}/g, '\n\n') // Normalize multiple newlines
+    .trim();
+  
+
   return (
-    <div className={`relative break-words flex flex-col`}>
+    <div
+      className={`relative flex flex-col max-w-[85%] md:max-w-[80%] rounded-3xl p-3 shadow-sm break-words bg-card border border-border text-foreground`}
+    >
       {activityForThisBubble && activityForThisBubble.length > 0 && (
         <div className="mb-3 border-b border-border pb-3 text-xs">
           <ActivityTimeline
@@ -203,18 +90,14 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
           />
         </div>
       )}
-      <ReactMarkdown 
-        components={mdComponents}
-        breaks={true}
-      >
-        {typeof message.content === "string"
-          ? message.content
-              .replace(/(\d+\.\s+[A-Z][^.]*)/g, '\n\n## $1\n\n') // Add headers for numbered sections
-              .replace(/\*\s+([^*\n]+)/g, '\n* $1') // Fix bullet points
-              .replace(/\[(\d+)\]/g, ' [$1]') // Space before citations
-              .trim()
-          : JSON.stringify(message.content)}
-      </ReactMarkdown>
+      <div className="markdown text-current">
+        
+        <ReactMarkdown 
+          remarkPlugins={[remarkGfm]}
+        >
+          {processedContent}
+        </ReactMarkdown>
+      </div>
       <Button
         variant="outline"
         size="sm"
@@ -268,8 +151,8 @@ export function ChatMessagesView({
 
   return (
     <div className="flex flex-col h-full">
-      <ScrollArea className="flex-grow h-full" ref={scrollAreaRef}>
-        <div className="p-4 md:p-6 space-y-2 max-w-4xl mx-auto pt-16 min-h-full">
+      <ScrollArea className="flex-1 overflow-hidden" ref={scrollAreaRef}>
+        <div className="p-4 md:p-6 space-y-2 max-w-4xl mx-auto pt-16">
           {messages.map((message, index) => {
             const isLast = index === messages.length - 1;
             return (
@@ -282,7 +165,6 @@ export function ChatMessagesView({
                   {message.type === "human" ? (
                     <HumanMessageBubble
                       message={message}
-                      mdComponents={mdComponents}
                     />
                   ) : (
                     <AiMessageBubble
@@ -291,7 +173,6 @@ export function ChatMessagesView({
                       liveActivity={liveActivityEvents} // Pass global live events
                       isLastMessage={isLast}
                       isOverallLoading={isLoading} // Pass global loading state
-                      mdComponents={mdComponents}
                       handleCopy={handleCopy}
                       copiedMessageId={copiedMessageId}
                     />

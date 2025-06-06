@@ -59,8 +59,8 @@ export function ActivityTimeline({
   }, [isLoading, processedEvents]);
 
   return (
-    <Card className="card-cegeka max-h-96">
-      <CardHeader className="pb-3">
+    <Card className={`card-cegeka ${isTimelineCollapsed ? 'h-14' : 'max-h-96'}`}>
+      <CardHeader className={isTimelineCollapsed ? "py-1 px-4 flex items-center h-full" : "pb-3 flex items-center"}>
         <CardDescription className="flex items-center justify-between">
           <div
             className="flex items-center justify-start text-sm w-full cursor-pointer gap-2 text-foreground font-semibold"

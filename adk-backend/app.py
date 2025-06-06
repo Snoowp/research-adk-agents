@@ -173,13 +173,7 @@ async def stream_research_direct(request: ResearchRequest):
                 try:
                     # Ensure event is properly formatted dict
                     if isinstance(event, dict):
-                        # Clean any content that might have newlines
-                        if 'data' in event and isinstance(event['data'], dict):
-                            for key, value in event['data'].items():
-                                if isinstance(value, str):
-                                    event['data'][key] = value.replace('\n', ' ').replace('\r', ' ')
-                        
-                        # Format as clean SSE
+                        # Format as clean SSE - preserve newlines for markdown
                         event_json = json.dumps(event, ensure_ascii=False)
                         yield f"data: {event_json}\n\n"
                 except Exception as json_error:

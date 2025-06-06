@@ -156,24 +156,27 @@
   
   /* Cegeka Typography Hierarchy */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', 'Calibri', system-ui, -apple-system, sans-serif;
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: -0.025em;
+    font-family: 'Inter', 'Calibri', system-ui, -apple-system, sans-serif !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.025em !important;
   }
   
   h1 {
-    @apply text-4xl font-bold;
-    color: var(--cegeka-sky-blue);
+    font-size: 2.25rem !important;
+    font-weight: 700 !important;
+    color: var(--cegeka-sky-blue) !important;
   }
   
   h2 {
-    @apply text-3xl font-semibold;
-    color: var(--cegeka-dark-blue);
+    font-size: 1.875rem !important;
+    font-weight: 600 !important;
+    color: var(--cegeka-dark-blue) !important;
   }
   
   h3 {
-    @apply text-2xl font-medium;
+    font-size: 1.5rem !important;
+    font-weight: 500 !important;
   }
   
   /* Cegeka Brand Accent Colors */
@@ -359,6 +362,171 @@
   transform: translateY(-2px);
   box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   border-color: var(--cegeka-sky-blue);
+}
+
+/* Markdown Scoped Styles - Apply Cegeka brand styling */
+.markdown {
+  line-height: 1.6 !important;
+}
+
+.markdown h1 {
+  font-size: 2.25rem !important;
+  font-weight: 700 !important;
+  margin-top: 1rem !important;
+  margin-bottom: 0.75rem !important;
+  color: var(--cegeka-sky-blue) !important;
+  display: block !important;
+  font-family: 'Inter', 'Calibri', system-ui, -apple-system, sans-serif !important;
+  letter-spacing: -0.025em !important;
+}
+
+.markdown h2 {
+  font-size: 1.875rem !important;
+  font-weight: 600 !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.5rem !important;
+  color: var(--cegeka-dark-blue) !important;
+  display: block !important;
+  font-family: 'Inter', 'Calibri', system-ui, -apple-system, sans-serif !important;
+  letter-spacing: -0.025em !important;
+}
+
+.markdown h3 {
+  font-size: 1.5rem !important;
+  font-weight: 500 !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  color: var(--foreground) !important;
+  display: block !important;
+  font-family: 'Inter', 'Calibri', system-ui, -apple-system, sans-serif !important;
+  letter-spacing: -0.025em !important;
+}
+
+.markdown h4 {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.25rem !important;
+  color: var(--foreground) !important;
+  display: block !important;
+}
+
+.markdown h5 {
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+  color: var(--foreground) !important;
+  display: block !important;
+}
+
+.markdown h6 {
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+  color: var(--foreground) !important;
+  display: block !important;
+}
+
+.markdown p {
+  margin-bottom: 0.75rem !important;
+  color: inherit !important;
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  display: block !important;
+}
+
+.markdown ul {
+  list-style-type: disc !important;
+  padding-left: 1.5rem !important;
+  margin-bottom: 0.75rem !important;
+  display: block !important;
+}
+
+.markdown ol {
+  list-style-type: decimal !important;
+  padding-left: 1.5rem !important;
+  margin-bottom: 0.75rem !important;
+  display: block !important;
+}
+
+.markdown li {
+  color: inherit !important;
+  margin-bottom: 0.25rem !important;
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  display: list-item !important;
+}
+
+.markdown strong {
+  font-weight: 600 !important;
+  color: inherit !important;
+}
+
+.markdown em {
+  font-style: italic !important;
+  color: inherit !important;
+}
+
+.markdown code {
+  background-color: var(--muted) !important;
+  padding: 0.125rem 0.25rem !important;
+  border-radius: 0.25rem !important;
+  font-size: 0.875rem !important;
+  font-family: monospace !important;
+  color: var(--foreground) !important;
+}
+
+.markdown pre {
+  background-color: var(--muted) !important;
+  padding: 0.75rem !important;
+  border-radius: 0.375rem !important;
+  overflow-x: auto !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.markdown pre code {
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
+.markdown blockquote {
+  border-left: 4px solid var(--border) !important;
+  padding-left: 1rem !important;
+  font-style: italic !important;
+  color: var(--muted-foreground) !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.markdown a {
+  color: var(--primary) !important;
+  text-decoration: underline !important;
+}
+
+.markdown hr {
+  border-color: var(--border) !important;
+  margin: 1rem 0 !important;
+}
+
+.markdown table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  border: 1px solid var(--border) !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.markdown th {
+  border: 1px solid var(--border) !important;
+  padding: 0.75rem !important;
+  background-color: var(--muted) !important;
+  font-weight: 600 !important;
+  text-align: left !important;
+}
+
+.markdown td {
+  border: 1px solid var(--border) !important;
+  padding: 0.75rem !important;
 }
 
 /* Research Agent Specific Styles */
